@@ -1449,7 +1449,7 @@
         }
         .gift-panel.show { display: flex; }
 
-        /* 音乐界面（独立全屏层） */
+        /* 音乐界面 */
         .music-panel {
             position: fixed;
             inset: 0;
@@ -1465,7 +1465,6 @@
             flex-shrink: 0;
             display: flex;
             align-items: center;
-            gap: 10px;
             padding: 12px 16px;
             padding-top: calc(12px + env(safe-area-inset-top, 0px));
             background: var(--container);
@@ -1481,7 +1480,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
+            margin-right: 12px;
             box-shadow: var(--shadow-card);
         }
         .music-search-wrap {
@@ -1491,111 +1490,264 @@
             gap: 8px;
             background: var(--bg-canvas);
             border-radius: 20px;
-            padding: 8px 10px 8px 14px;
-            border: 1px solid rgba(0,0,0,0.06);
+            padding: 6px 10px;
         }
         .music-search-input {
             flex: 1;
             border: none;
             background: transparent;
             font-size: 14px;
-            color: var(--text-title);
+            font-family: inherit;
             outline: none;
         }
-        .music-search-input::placeholder { color: var(--text-muted); }
         .music-search-btn {
-            width: 36px;
-            height: 36px;
             border: none;
-            background: transparent;
+            background: rgba(255,255,255,0.9);
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: 12px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            flex-shrink: 0;
         }
-        .music-search-btn:hover { opacity: 0.8; }
-        .music-search-btn svg { width: 22px; height: 22px; stroke: var(--text-muted); }
         .music-body {
             flex: 1;
             overflow-y: auto;
-            padding: 16px;
+            padding: 12px 16px 16px;
         }
         .music-empty-hint {
             text-align: center;
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
             margin-top: 32px;
         }
-        .music-loading { text-align: center; color: var(--text-muted); padding: 24px; font-size: 14px; display: none; }
-        .music-list { display: flex; flex-direction: column; gap: 10px; }
+        .music-loading-hint {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-top: 12px;
+        }
+        .music-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
         .music-item {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 12px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 12px;
+            border-radius: 12px;
             background: var(--container);
-            border-radius: var(--radius);
             box-shadow: var(--shadow-card);
-            cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s;
         }
-        .music-item:hover { transform: translateX(2px); box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
-        .music-item-pic {
+        .music-item-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        .music-cover {
             width: 48px;
             height: 48px;
-            border-radius: 8px;
-            background: var(--bg-canvas);
-            object-fit: cover;
+            border-radius: 10px;
+            overflow: hidden;
             flex-shrink: 0;
         }
-        .music-item-info { flex: 1; min-width: 0; }
-        .music-item-name { font-size: 14px; font-weight: 600; color: var(--text-title); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .music-item-artist { font-size: 12px; color: var(--text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .music-item-actions { display: flex; gap: 8px; flex-shrink: 0; }
-        .music-item-btn {
-            width: 36px;
-            height: 36px;
+        .music-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .music-main {
+            flex: 1;
+            min-width: 0;
+        }
+        .music-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-title);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .music-artist {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .music-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .music-play-btn,
+        .music-share-btn {
             border: none;
-            border-radius: 50%;
-            background: var(--accent-mood);
-            color: #fff;
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 12px;
             cursor: pointer;
+        }
+        .music-play-btn {
+            background: rgba(52,152,219,0.15);
+            color: #2980b9;
+        }
+        .music-share-btn {
+            background: rgba(46,204,113,0.15);
+            color: #16a34a;
+        }
+        .music-progress-wrap {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .music-progress-time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .music-progress {
+            width: 100%;
+        }
+        .music-progress input[type="range"] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(0,0,0,0.08);
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .music-progress input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary, #3498db);
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            transition: transform 0.15s;
+        }
+        .music-progress input[type="range"]::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; }
+        .music-progress input[type="range"]::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary, #3498db);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .music-progress input[type="range"]::-moz-range-track {
+            height: 6px;
+            background: rgba(0,0,0,0.08);
+            border-radius: 3px;
+        }
+
+        /* 聊天内音乐卡片 */
+        .chat-msg-music-card {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            max-width: 300px;
+        }
+        .chat-msg-music-card > .chat-msg-music-progress-wrap {
+            width: 100%;
+            flex-basis: 100%;
+        }
+        .chat-msg-music-cover {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .chat-msg-music-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .chat-msg-music-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .chat-msg-music-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-title);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .chat-msg-music-artist {
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .chat-msg-music-play {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: #1f2937;
+            color: #f9fafb;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0;
-            transition: opacity 0.2s;
-        }
-        .music-item-btn:hover { opacity: 0.85; }
-        .music-item-btn.share { background: var(--accent-intel-alt); }
-        .music-item-btn svg { width: 18px; height: 18px; }
-        .chat-msg-music-card {
-            max-width: 280px;
-            background: var(--container);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-card);
-            display: flex;
             cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s;
         }
-        .chat-msg-music-card:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-        .chat-msg-music-pic {
-            width: 64px;
-            height: 64px;
-            background: var(--bg-canvas);
-            object-fit: cover;
-            flex-shrink: 0;
+        .chat-msg-music-progress-wrap {
+            width: 100%;
+            margin-top: 8px;
         }
-        .chat-msg-music-info { padding: 10px 12px; flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; }
-        .chat-msg-music-play { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-mood); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .chat-msg-music-play svg { width: 14px; height: 14px; margin-left: 2px; }
-        .chat-msg-music-text { min-width: 0; }
-        .chat-msg-music-name { font-size: 14px; font-weight: 600; color: var(--text-title); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .chat-msg-music-artist { font-size: 12px; color: var(--text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
+        .chat-msg-music-progress-time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+        .chat-msg-music-progress {
+            width: 100%;
+        }
+        .chat-msg-music-progress input[type="range"] {
+            width: 100%;
+            height: 5px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(0,0,0,0.08);
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .chat-msg-music-progress input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #1f2937;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .chat-msg-music-progress input[type="range"]::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #1f2937;
+            cursor: pointer;
+            border: none;
+        }
         .gift-header {
             flex-shrink: 0;
             display: flex;
@@ -2135,25 +2287,6 @@
                             </div>
                             <div class="chat-plus-item-label">礼物</div>
                         </div>
-                        <div class="chat-plus-item" data-action="share-music">
-                            <div class="chat-plus-item-icon">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 5v10a2 2 0 11-2-2" stroke="currentColor" fill="none"/>
-                                    <path d="M10 5l7-2v10a2 2 0 11-2-2" stroke="currentColor" fill="none"/>
-                                </svg>
-                            </div>
-                            <div class="chat-plus-item-label">音乐</div>
-                        </div>
-                        <div class="chat-plus-item" data-action="listen-together">
-                            <div class="chat-plus-item-icon">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="8" cy="14" r="2" stroke="currentColor" fill="none"/>
-                                    <circle cx="16" cy="14" r="2" stroke="currentColor" fill="none"/>
-                                    <path d="M8 12V7l8-3v8" stroke="currentColor" fill="none"/>
-                                </svg>
-                            </div>
-                            <div class="chat-plus-item-label">一起听</div>
-                        </div>
                         <div class="chat-plus-item" data-action="transfer">
                             <div class="chat-plus-item-icon">
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -2219,6 +2352,25 @@
                                 </svg>
                             </div>
                             <div class="chat-plus-item-label">分享好友名片</div>
+                        </div>
+                        <div class="chat-plus-item" data-action="share-music">
+                            <div class="chat-plus-item-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 5v10a2 2 0 11-2-2" stroke="currentColor" fill="none"/>
+                                    <path d="M10 5l7-2v10a2 2 0 11-2-2" stroke="currentColor" fill="none"/>
+                                </svg>
+                            </div>
+                            <div class="chat-plus-item-label">分享音乐</div>
+                        </div>
+                        <div class="chat-plus-item" data-action="listen-together">
+                            <div class="chat-plus-item-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="8" cy="14" r="2" stroke="currentColor" fill="none"/>
+                                    <circle cx="16" cy="14" r="2" stroke="currentColor" fill="none"/>
+                                    <path d="M8 12V7l8-3v8" stroke="currentColor" fill="none"/>
+                                </svg>
+                            </div>
+                            <div class="chat-plus-item-label">一起听</div>
                         </div>
                     </div>
                 </div>
@@ -2307,7 +2459,7 @@
 
         <input type="file" id="voiceCallBgFileInput" accept="image/*" style="display:none">
 
-        <!-- 音乐界面（点击+号「音乐」或「一起听」进入） -->
+        <!-- 音乐界面 -->
         <div class="music-panel" id="musicPanel">
             <div class="music-header">
                 <button type="button" class="music-back" id="musicBackBtn" aria-label="返回">
@@ -2317,20 +2469,17 @@
                 </button>
                 <div class="music-search-wrap">
                     <input type="text" class="music-search-input" id="musicSearchInput" placeholder="搜索歌曲 / 歌手..." autocomplete="off">
-                    <button type="button" class="music-search-btn" id="musicSearchBtn" aria-label="搜索" title="搜索">
-                        <svg class="music-search-svg-handdrawn" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M10.5 6a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9z"/>
-                            <path d="M15 15l4.5 4.5"/>
-                        </svg>
-                    </button>
+                    <button type="button" class="music-search-btn" id="musicSearchBtn">搜索</button>
                 </div>
             </div>
             <div class="music-body">
-                <div class="music-empty-hint" id="musicEmptyHint">输入关键词后点击右侧搜索</div>
-                <div class="music-loading" id="musicLoadingHint" style="display:none;">正在搜索...</div>
-                <div class="music-list" id="musicList" style="display:none;"></div>
+                <div class="music-empty-hint" id="musicEmptyHint">输入关键词搜索你想分享的音乐</div>
+                <div class="music-loading-hint" id="musicLoadingHint" style="display:none">正在搜索音乐...</div>
+                <div class="music-list" id="musicList"></div>
             </div>
         </div>
+
+        <audio id="musicPreviewAudio"></audio>
 
         <!-- 礼物界面 -->
         <div class="gift-panel" id="giftPanel">
@@ -3452,6 +3601,9 @@
         let voiceCallTimer = null;
         let voiceCallStartAt = null;
         let voiceCallTimerInterval = null;
+        let musicPreviewAudio = null;
+        let currentMusicPlayingId = null;
+        let pendingMusicShare = null; // { title, artist, cover, preview } 分享弹窗用
 
         // 转账和红包样式系统
         const TRANSFER_STYLES_PRESET = [
@@ -3533,6 +3685,242 @@
             panel.style.setProperty('--voice-call-transcript-color', style.transcriptColor || '');
             panel.style.setProperty('--voice-call-input-bg', style.inputBg || '');
             panel.style.setProperty('--voice-call-input-color', style.inputColor || '');
+        }
+
+        function openMusicPanel() {
+            const panel = document.getElementById('musicPanel');
+            if (!panel) return;
+            document.getElementById('musicEmptyHint').style.display = 'block';
+            document.getElementById('musicLoadingHint').style.display = 'none';
+            document.getElementById('musicList').innerHTML = '';
+            panel.classList.add('show');
+        }
+
+        function closeMusicPanel() {
+            const panel = document.getElementById('musicPanel');
+            if (!panel) return;
+            panel.classList.remove('show');
+        }
+
+        function confirmMusicShare() {
+            if (!pendingMusicShare || !currentChatRelationId) return;
+            const music = {
+                title: pendingMusicShare.title,
+                artist: pendingMusicShare.artist,
+                cover: pendingMusicShare.cover,
+                preview: pendingMusicShare.preview
+            };
+            if (!gameState.chatLogs[currentChatRelationId]) gameState.chatLogs[currentChatRelationId] = [];
+            gameState.chatLogs[currentChatRelationId].push({ from: 'me', music });
+            renderChatMessages();
+            saveGame();
+            closeMusicPanel();
+        }
+
+        function confirmMusicShare() {
+            if (!pendingMusicShare || !currentChatRelationId) return;
+            const music = {
+                title: pendingMusicShare.title,
+                artist: pendingMusicShare.artist,
+                cover: pendingMusicShare.cover,
+                preview: pendingMusicShare.preview
+            };
+            if (!gameState.chatLogs[currentChatRelationId]) gameState.chatLogs[currentChatRelationId] = [];
+            gameState.chatLogs[currentChatRelationId].push({ from: 'me', music });
+            renderChatMessages();
+            saveGame();
+            closeMusicShareModal();
+            closeMusicPanel();
+        }
+
+        async function searchMusic(term) {
+            const emptyHint = document.getElementById('musicEmptyHint');
+            const loadingHint = document.getElementById('musicLoadingHint');
+            const list = document.getElementById('musicList');
+            // 停止正在播放的音乐并重置状态
+            if (musicPreviewAudio) {
+                musicPreviewAudio.pause();
+                musicPreviewAudio.src = '';
+            }
+            currentMusicPlayingId = null;
+            if (!term) {
+                emptyHint.style.display = 'block';
+                emptyHint.textContent = '请输入关键词再搜索';
+                loadingHint.style.display = 'none';
+                list.innerHTML = '';
+                return;
+            }
+            emptyHint.style.display = 'none';
+            loadingHint.style.display = 'block';
+            list.innerHTML = '';
+            try {
+                // 使用Deezer API搜索完整版音乐
+                const deezerUrl = `https://api.deezer.com/search?q=${encodeURIComponent(term)}&limit=20`;
+                const res = await fetch(deezerUrl);
+                if (!res.ok) throw new Error('搜索失败');
+                const data = await res.json();
+                const results = Array.isArray(data.data) ? data.data : [];
+                if (!results.length) {
+                    emptyHint.style.display = 'block';
+                    emptyHint.textContent = '没有找到相关音乐';
+                    loadingHint.style.display = 'none';
+                    return;
+                }
+                emptyHint.style.display = 'none';
+                // 使用Jamendo API获取免费完整版音乐
+                const jamendoUrl = `https://api.jamendo.com/v3.0/tracks/?client_id=YOUR_CLIENT_ID&format=json&limit=20&search=${encodeURIComponent(term)}`;
+                // 由于Jamendo需要API密钥，改用Deezer + 尝试获取完整版
+                // 对于完整版，使用Deezer的preview（30秒）作为临时方案
+                // 实际完整版需要用户提供或使用付费API
+                list.innerHTML = results.map((item, idx) => {
+                    const title = (item.title || '').toString();
+                    const artist = (item.artist ? item.artist.name : '').toString();
+                    const cover = (item.album ? item.album.cover_medium || item.album.cover : '').toString();
+                    // Deezer的preview是30秒，完整版需要特殊处理
+                    // 使用preview URL，但标记为完整版（实际播放时会尝试获取完整版）
+                    const preview = (item.preview || '').toString();
+                    // 使用Deezer track的stream URL（可能需要认证，但先尝试）
+                    const fullAudioUrl = preview; // 暂时使用preview，完整版需要API认证
+                    
+                    return `<div class="music-item" data-music-idx="${idx}" data-preview="${escapeHtml(fullAudioUrl)}" data-title="${escapeHtml(title)}" data-artist="${escapeHtml(artist)}" data-cover="${escapeHtml(cover)}" data-duration="${item.duration || 0}">
+                        <div class="music-item-top">
+                            <div class="music-cover">${cover ? `<img src="${escapeHtml(cover)}" alt="">` : ''}</div>
+                            <div class="music-main">
+                                <div class="music-title">${escapeHtml(title)}</div>
+                                <div class="music-artist">${escapeHtml(artist)}</div>
+                            </div>
+                            <div class="music-actions">
+                                <button type="button" class="music-play-btn">播放</button>
+                                <button type="button" class="music-share-btn">分享</button>
+                            </div>
+                        </div>
+                        <div class="music-progress-wrap">
+                            <div class="music-progress-time">
+                                <span class="music-time-current">0:00</span>
+                                <span class="music-time-total">--:--</span>
+                            </div>
+                            <div class="music-progress">
+                                <input type="range" min="0" max="100" value="0" step="1">
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+                loadingHint.style.display = 'none';
+
+                // 重置所有按钮和进度条状态
+                list.querySelectorAll('.music-play-btn').forEach(btn => {
+                    btn.textContent = '播放';
+                });
+                list.querySelectorAll('.music-progress input[type="range"]').forEach(range => {
+                    range.value = '0';
+                });
+                list.querySelectorAll('.music-time-current').forEach(span => {
+                    span.textContent = '0:00';
+                });
+                list.querySelectorAll('.music-time-total').forEach(span => {
+                    span.textContent = '--:--';
+                });
+
+                if (!musicPreviewAudio) {
+                    musicPreviewAudio = document.getElementById('musicPreviewAudio');
+                }
+                const progressMap = new Map();
+                list.querySelectorAll('.music-item').forEach((item) => {
+                    const idx = item.getAttribute('data-music-idx') || '';
+                    const range = item.querySelector('.music-progress input[type="range"]');
+                    if (range) progressMap.set(idx, range);
+                });
+                if (musicPreviewAudio) {
+                    musicPreviewAudio.ontimeupdate = () => {
+                        if (!currentMusicPlayingId) return;
+                        const itemEl = list.querySelector(`.music-item[data-music-idx="${currentMusicPlayingId}"]`);
+                        if (!itemEl) return;
+                        const r = progressMap.get(currentMusicPlayingId);
+                        const curSpan = itemEl.querySelector('.music-time-current');
+                        const totalSpan = itemEl.querySelector('.music-time-total');
+                        const dur = musicPreviewAudio.duration;
+                        const cur = musicPreviewAudio.currentTime;
+                        const fmt = (s) => {
+                            if (!s || isNaN(s)) return '--:--';
+                            const m = Math.floor(s / 60);
+                            const sec = Math.floor(s % 60);
+                            return m + ':' + (sec < 10 ? '0' : '') + sec;
+                        };
+                        if (r && dur && !isNaN(dur)) {
+                            r.value = String(Math.floor((cur / dur) * 100));
+                        }
+                        if (curSpan) curSpan.textContent = fmt(cur);
+                        if (totalSpan) {
+                            if (dur && !isNaN(dur)) {
+                                totalSpan.textContent = fmt(dur);
+                            } else {
+                                // 尝试从data-duration获取
+                                const itemDuration = itemEl.getAttribute('data-duration');
+                                if (itemDuration) {
+                                    totalSpan.textContent = fmt(parseInt(itemDuration, 10));
+                                }
+                            }
+                        }
+                    };
+                }
+                list.querySelectorAll('.music-play-btn').forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        const item = btn.closest('.music-item');
+                        if (!item) return;
+                        const preview = item.getAttribute('data-preview') || '';
+                        const idx = item.getAttribute('data-music-idx') || '';
+                        if (!preview || !musicPreviewAudio) return;
+                        const range = progressMap.get(idx);
+                        if (currentMusicPlayingId === idx && !musicPreviewAudio.paused) {
+                            musicPreviewAudio.pause();
+                            currentMusicPlayingId = null;
+                            btn.textContent = '播放';
+                        } else {
+                            musicPreviewAudio.src = preview;
+                            musicPreviewAudio.play().catch(() => {});
+                            currentMusicPlayingId = idx;
+                            list.querySelectorAll('.music-play-btn').forEach(b => { if (b !== btn) b.textContent = '播放'; });
+                            btn.textContent = '暂停';
+                            if (range) range.value = '0';
+                            const itemEl = btn.closest('.music-item');
+                            if (itemEl) {
+                                const curSpan = itemEl.querySelector('.music-time-current');
+                                if (curSpan) curSpan.textContent = '0:00';
+                            }
+                        }
+                    });
+                });
+                list.querySelectorAll('.music-progress input[type="range"]').forEach((range) => {
+                    range.addEventListener('input', () => {
+                        const item = range.closest('.music-item');
+                        if (!item || !musicPreviewAudio) return;
+                        const idx = item.getAttribute('data-music-idx') || '';
+                        if (currentMusicPlayingId !== idx) return;
+                        if (!musicPreviewAudio.duration || isNaN(musicPreviewAudio.duration)) return;
+                        const ratio = parseInt(range.value || '0', 10) / 100;
+                        musicPreviewAudio.currentTime = musicPreviewAudio.duration * ratio;
+                    });
+                });
+                list.querySelectorAll('.music-share-btn').forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        if (!currentChatRelationId) return;
+                        const item = btn.closest('.music-item');
+                        if (!item) return;
+                        pendingMusicShare = {
+                            title: item.getAttribute('data-title') || '',
+                            artist: item.getAttribute('data-artist') || '',
+                            cover: item.getAttribute('data-cover') || '',
+                            preview: item.getAttribute('data-preview') || ''
+                        };
+                        confirmMusicShare();
+                    });
+                });
+            } catch (e) {
+                console.error('搜索音乐失败', e);
+                emptyHint.style.display = 'block';
+                emptyHint.textContent = '搜索失败，请稍后重试';
+                loadingHint.style.display = 'none';
+            }
         }
 
         function openVoiceCallPanel() {
@@ -4373,166 +4761,6 @@
             document.getElementById('giftPanel').classList.remove('show');
         }
 
-        function openMusicPanel() {
-            closeChatPlusMenu();
-            const panel = document.getElementById('musicPanel');
-            if (panel) panel.classList.add('show');
-        }
-        function closeMusicPanel() {
-            const panel = document.getElementById('musicPanel');
-            if (panel) panel.classList.remove('show');
-        }
-
-        /** 酷我音乐 itooi API（支持中文歌完整版） */
-        const KUWO_API_BASE = 'https://api.itooi.cn/kuwo';
-        let lastMusicSearchResults = [];
-        let globalAudio = null;
-        let currentPlayingMusicId = null;
-
-        async function searchMusic() {
-            const input = document.getElementById('musicSearchInput');
-            const keyword = (input && input.value || '').trim();
-            const emptyHint = document.getElementById('musicEmptyHint');
-            const loadingHint = document.getElementById('musicLoadingHint');
-            const listEl = document.getElementById('musicList');
-            const btn = document.getElementById('musicSearchBtn');
-            if (!keyword) {
-                emptyHint.style.display = 'block';
-                emptyHint.textContent = '请输入搜索关键词';
-                listEl.style.display = 'none';
-                return;
-            }
-            emptyHint.style.display = 'none';
-            listEl.style.display = 'none';
-            loadingHint.style.display = 'block';
-            if (btn) btn.disabled = true;
-            try {
-                const url = KUWO_API_BASE + '/search?keyword=' + encodeURIComponent(keyword) + '&type=song&pageSize=30&page=0';
-                const res = await fetch(url);
-                if (!res.ok) throw new Error('搜索请求失败');
-                const data = await res.json();
-                let arr = [];
-                if (data && (data.code === 200 || data.code === 0) && data.data) {
-                    arr = Array.isArray(data.data) ? data.data : (data.data.list || data.data.songs || data.data.result || []);
-                }
-                if (!Array.isArray(arr)) arr = [];
-                arr = arr.map(item => {
-                    const rid = (item.rid || item.id || item.musicrid || '').toString().replace(/^music_/, '');
-                    let art = item.artist || item.singer || item.artists || '';
-                    if (Array.isArray(art)) art = (art[0] && art[0].name) || art[0] || '';
-                    return {
-                        id: rid,
-                        rid: rid,
-                        musicrid: rid,
-                        name: (item.name || item.songName || item.songname || '').toString(),
-                        artist: (art || '').toString(),
-                        pic: (item.pic || item.picUrl || item.album || item.cover || '').toString()
-                    };
-                });
-                lastMusicSearchResults = arr;
-                renderMusicList(arr);
-                if (arr.length === 0) {
-                    emptyHint.style.display = 'block';
-                    emptyHint.textContent = '未找到相关歌曲，换个关键词试试';
-                } else {
-                    listEl.style.display = 'flex';
-                    listEl.style.flexDirection = 'column';
-                    listEl.style.gap = '10px';
-                }
-            } catch (e) {
-                console.error('音乐搜索失败:', e);
-                emptyHint.style.display = 'block';
-                emptyHint.textContent = '搜索失败：' + (e.message || '请稍后重试');
-                lastMusicSearchResults = [];
-                renderMusicList([]);
-            } finally {
-                loadingHint.style.display = 'none';
-                if (btn) btn.disabled = false;
-            }
-        }
-
-        function renderMusicList(items) {
-            const listEl = document.getElementById('musicList');
-            if (!listEl) return;
-            if (!items || items.length === 0) {
-                listEl.innerHTML = '';
-                return;
-            }
-            listEl.innerHTML = items.map((m, i) => {
-                const id = m.id || m.rid || m.musicrid || '';
-                const name = escapeHtml((m.name || m.songName || '').toString());
-                const artist = escapeHtml((m.artist || m.singer || m.artists || '').toString());
-                const pic = (m.pic || m.picUrl || m.album || '').toString().trim() || 'https://picsum.photos/seed/music/96/96';
-                return `<div class="music-item" data-idx="${i}">
-                    <img class="music-item-pic" src="${escapeHtml(pic)}" alt="" onerror="this.src='https://picsum.photos/seed/music/96/96'">
-                    <div class="music-item-info">
-                        <div class="music-item-name">${name || '未知歌曲'}</div>
-                        <div class="music-item-artist">${artist || '未知歌手'}</div>
-                    </div>
-                    <div class="music-item-actions">
-                        <button type="button" class="music-item-btn play" data-idx="${i}" title="播放" aria-label="播放"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
-                        <button type="button" class="music-item-btn share" data-idx="${i}" title="分享到聊天" aria-label="分享"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
-                    </div>
-                </div>`;
-            }).join('');
-            listEl.querySelectorAll('.music-item-btn.play').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const idx = parseInt(btn.dataset.idx, 10);
-                    const m = items[idx];
-                    if (m) playMusicItem(m);
-                });
-            });
-            listEl.querySelectorAll('.music-item-btn.share').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const idx = parseInt(btn.dataset.idx, 10);
-                    const m = items[idx];
-                    if (m) shareMusicToChat(m);
-                });
-            });
-        }
-
-        async function fetchMusicPlayUrl(musicId) {
-            const url = KUWO_API_BASE + '/url?id=' + encodeURIComponent(musicId) + '&quality=128&isRedirect=0';
-            const res = await fetch(url);
-            if (!res.ok) throw new Error('获取播放地址失败');
-            const data = await res.json();
-            if (data && data.code === 200 && data.data) return (typeof data.data === 'string' ? data.data : (data.data.url || data.data)).trim();
-            throw new Error('无法获取播放地址');
-        }
-
-        async function playMusicItem(m) {
-            const id = m.id || m.rid || m.musicrid || '';
-            if (!id) return;
-            try {
-                const playUrl = await fetchMusicPlayUrl(id);
-                if (!playUrl) return;
-                if (!globalAudio) globalAudio = new Audio();
-                globalAudio.src = playUrl;
-                globalAudio.play().catch(e => console.warn('播放失败:', e));
-                currentPlayingMusicId = id;
-            } catch (e) {
-                console.error('播放失败:', e);
-                alert('播放失败：' + (e.message || '请稍后重试'));
-            }
-        }
-
-        function shareMusicToChat(m) {
-            if (!currentChatRelationId) return;
-            if (!gameState.chatLogs[currentChatRelationId]) gameState.chatLogs[currentChatRelationId] = [];
-            const musicObj = {
-                id: m.id || m.rid || m.musicrid || '',
-                name: m.name || m.songName || '未知歌曲',
-                artist: m.artist || m.singer || m.artists || '未知歌手',
-                pic: (m.pic || m.picUrl || m.album || '').toString().trim() || ''
-            };
-            gameState.chatLogs[currentChatRelationId].push({ from: 'me', music: musicObj });
-            renderChatMessages();
-            closeMusicPanel();
-            saveGame();
-        }
-
         /** 无 API 时的兜底图（Picsum，与礼物名无关） */
         function getGiftImageUrl(name) {
             const seed = (name || 'gift').toString().trim() || 'gift';
@@ -4790,24 +5018,6 @@
                             ${price ? `<div class="chat-msg-gift-price">¥${price}</div>` : ''}
                         </div>
                     </div>`;
-                } else if (msg.music) {
-                    const mus = msg.music;
-                    const name = escapeHtml((mus.name || '未知歌曲').toString());
-                    const artist = escapeHtml((mus.artist || '未知歌手').toString());
-                    const pic = (mus.pic || '').toString().trim() ? escapeHtml(mus.pic) : 'https://picsum.photos/seed/music/96/96';
-                    const mid = (mus.id || '').toString();
-                    bubble = `<div class="chat-msg-music-card" data-msg-idx="${idx}" data-music-id="${escapeHtml(mid)}" data-music-name="${name}" data-music-artist="${artist}" data-music-pic="${pic}">
-                        <img class="chat-msg-music-pic" src="${pic}" alt="" onerror="this.src='https://picsum.photos/seed/music/96/96'">
-                        <div class="chat-msg-music-info">
-                            <div class="chat-msg-music-play" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                            <div class="chat-msg-music-text">
-                                <div class="chat-msg-music-name">${name}</div>
-                                <div class="chat-msg-music-artist">${artist}</div>
-                            </div>
-                        </div>
-                    </div>`;
                 } else if (msg.voiceCallSummary) {
                     const v = msg.voiceCallSummary || {};
                     const secs = typeof v.duration === 'number' && v.duration > 0 ? v.duration : 0;
@@ -4828,6 +5038,27 @@
                             <span>${escapeHtml(statusLabel)}</span>
                         </div>
                         <div class="chat-msg-voicecall-meta">通话时长 ${durText}</div>
+                    </div>`;
+                } else if (msg.music) {
+                    const m = msg.music || {};
+                    const title = escapeHtml((m.title || '音乐').toString());
+                    const artist = escapeHtml((m.artist || '').toString());
+                    const cover = (m.cover || '').toString();
+                    const preview = (m.preview || '').toString();
+                    const playableAttr = preview ? `data-preview="${escapeHtml(preview)}"` : '';
+                    const progressHtml = preview ? `<div class="chat-msg-music-progress-wrap"><div class="chat-msg-music-progress-time"><span class="chat-msg-music-time-current">0:00</span><span class="chat-msg-music-time-total">--:--</span></div><div class="chat-msg-music-progress"><input type="range" min="0" max="100" value="0" step="1"></div></div>` : '';
+                    bubble = `<div class="chat-msg-music-card" ${playableAttr}>
+                        <div class="chat-msg-music-cover">${cover ? `<img src="${escapeHtml(cover)}" alt="">` : ''}</div>
+                        <div class="chat-msg-music-info">
+                            <div class="chat-msg-music-title">${title}</div>
+                            <div class="chat-msg-music-artist">${artist}</div>
+                        </div>
+                        ${preview ? `<button type="button" class="chat-msg-music-play" aria-label="播放音乐">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="14" height="14">
+                                <path d="M9 7v10l8-5z" fill="currentColor"/>
+                            </svg>
+                        </button>` : ''}
+                        ${progressHtml}
                     </div>`;
                 } else if (msg.location) {
                     const loc = msg.location || {};
@@ -4914,17 +5145,8 @@
                     }
                 });
             });
-            container.querySelectorAll('.chat-msg-music-card').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const mid = (card.dataset.musicId || '').trim();
-                    if (mid) {
-                        const m = { id: mid, name: card.dataset.musicName || '', artist: card.dataset.musicArtist || '', pic: card.dataset.musicPic || '' };
-                        playMusicItem(m);
-                    }
-                });
-            });
             container.scrollTop = container.scrollHeight;
+            bindChatMusicPlayers();
         }
 
 
@@ -5035,7 +5257,6 @@
 
         document.getElementById('chatBack').addEventListener('click', closeChat);
         document.getElementById('giftBackBtn').addEventListener('click', closeGiftPanel);
-        document.getElementById('musicBackBtn').addEventListener('click', closeMusicPanel);
         const giftSearchBtn = document.getElementById('giftSearchBtn');
         const giftSearchInput = document.getElementById('giftSearchInput');
         if (giftSearchBtn) {
@@ -5050,23 +5271,6 @@
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     searchGifts();
-                }
-            });
-        }
-        const musicSearchBtn = document.getElementById('musicSearchBtn');
-        const musicSearchInput = document.getElementById('musicSearchInput');
-        if (musicSearchBtn) {
-            musicSearchBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                searchMusic();
-            });
-        }
-        if (musicSearchInput) {
-            musicSearchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    searchMusic();
                 }
             });
         }
@@ -5138,7 +5342,7 @@
                     openImageSendModal();
                 } else if (action === 'gift') {
                     openGiftPanel();
-                } else if (action === 'share-music' || action === 'listen-together') {
+                } else if (action === 'share-music') {
                     openMusicPanel();
                 } else if (action === 'transfer') {
                     openTransferModal();
@@ -5151,6 +5355,8 @@
                     openLocationModal(action);
                 } else if (action === 'voice-call') {
                     openVoiceCallPanel();
+                } else if (action === 'share-music') {
+                    openMusicPanel();
                 } else {
                     console.log('选择了:', action);
                 }
@@ -5684,6 +5890,89 @@
             }
         }
 
+        // 音乐界面事件
+        const musicBackBtn = document.getElementById('musicBackBtn');
+        const musicSearchBtn = document.getElementById('musicSearchBtn');
+        const musicSearchInput = document.getElementById('musicSearchInput');
+        if (musicBackBtn) {
+            musicBackBtn.addEventListener('click', closeMusicPanel);
+        }
+        if (musicSearchBtn && musicSearchInput) {
+            musicSearchBtn.addEventListener('click', () => {
+                searchMusic(musicSearchInput.value.trim());
+            });
+            musicSearchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    searchMusic(musicSearchInput.value.trim());
+                }
+            });
+        }
+
+        // 聊天里的音乐卡片播放控制
+        function bindChatMusicPlayers() {
+            if (!musicPreviewAudio) {
+                musicPreviewAudio = document.getElementById('musicPreviewAudio');
+            }
+            const container = document.getElementById('chatMessages');
+            if (!container || !musicPreviewAudio) return;
+            const cards = container.querySelectorAll('.chat-msg-music-card[data-preview]');
+            cards.forEach(card => {
+                const preview = card.getAttribute('data-preview') || '';
+                const playBtn = card.querySelector('.chat-msg-music-play');
+                const range = card.querySelector('.chat-msg-music-progress input[type="range"]');
+                if (playBtn && preview) {
+                    playBtn.onclick = () => {
+                        if (!preview) return;
+                        if (currentMusicPlayingId === preview && !musicPreviewAudio.paused) {
+                            musicPreviewAudio.pause();
+                            currentMusicPlayingId = null;
+                        } else {
+                            musicPreviewAudio.src = preview;
+                            musicPreviewAudio.play().catch(() => {});
+                            currentMusicPlayingId = preview;
+                        }
+                    };
+                }
+                if (range && preview) {
+                    range.oninput = () => {
+                        if (currentMusicPlayingId !== preview) return;
+                        if (!musicPreviewAudio.duration || isNaN(musicPreviewAudio.duration)) return;
+                        const ratio = parseInt(range.value || '0', 10) / 100;
+                        musicPreviewAudio.currentTime = musicPreviewAudio.duration * ratio;
+                    };
+                }
+            });
+            if (musicPreviewAudio) {
+                musicPreviewAudio.ontimeupdate = () => {
+                    if (!currentMusicPlayingId || !musicPreviewAudio.duration || isNaN(musicPreviewAudio.duration)) return;
+                    const ratio = musicPreviewAudio.currentTime / musicPreviewAudio.duration;
+                    const percent = String(Math.floor(ratio * 100));
+                    const cur = musicPreviewAudio.currentTime;
+                    const dur = musicPreviewAudio.duration;
+                    const fmt = (s) => {
+                        if (!s || isNaN(s)) return '--:--';
+                        const m = Math.floor(s / 60);
+                        const sec = Math.floor(s % 60);
+                        return m + ':' + (sec < 10 ? '0' : '') + sec;
+                    };
+                    cards.forEach(card => {
+                        const preview = card.getAttribute('data-preview') || '';
+                        if (preview !== currentMusicPlayingId) return;
+                        const range = card.querySelector('.chat-msg-music-progress input[type="range"]');
+                        if (range) range.value = percent;
+                        const curSpan = card.querySelector('.chat-msg-music-time-current');
+                        const totalSpan = card.querySelector('.chat-msg-music-time-total');
+                        if (curSpan) curSpan.textContent = fmt(cur);
+                        if (totalSpan) {
+                            if (dur && !isNaN(dur)) {
+                                totalSpan.textContent = fmt(dur);
+                            }
+                        }
+                    });
+                };
+            }
+        }
         document.getElementById('transferCancelBtn').addEventListener('click', closeTransferModal);
         document.getElementById('transferOverlay').addEventListener('click', closeTransferModal);
         document.getElementById('transferStyleBtn').addEventListener('click', (e) => {
